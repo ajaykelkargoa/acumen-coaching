@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { coach, coachee, session, date } = req.body || {};
+  const { coach, coachee, session, date, time } = req.body || {};
   if (!coach || !coachee || !session || !date)
     return res.status(400).json({ error: 'All fields required.' });
 
@@ -24,11 +24,19 @@ export default async function handler(req, res) {
     const dup = sessions.find(s => s.coach === coach && s.coachee === coachee && s.session === session);
     if (dup) return res.status(409).json({ error: `Already logged: ${session} with ${coachee}.` });
 
-    sessions.push({ id: Date.now(), coach, coachee, session, date, loggedAt: new Date().toISOString() });
+    sessions.push({
+      id: Date.now(), coach, coachee, session,
+      date, time: time || '',
+      loggedAt: new Date().toISOString()
+    });
 
     const sr = await fetch(API_URL, {
       method: 'PUT', headers: HEADERS,
-      body: JSON.stringify({ message: `Log: ${coach} - ${session}`, content: Buffer.from(JSON.stringify(sessions, null, 2)).toString('base64'), sha: fd.sha })
+      body: JSON.stringify({
+        message: `Log: ${coach} - ${session}`,
+        content: Buffer.from(JSON.stringify(sessions, null, 2)).toString('base64'),
+        sha: fd.sha
+      })
     });
     if (!sr.ok) return res.status(500).json({ error: 'Failed to save. Please try again.' });
     return res.status(200).json({ success: true });
