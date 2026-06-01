@@ -47,17 +47,35 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .filter-row select{flex:1;min-width:120px;font-size:13px;padding:8px 10px}
 .dl-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
-.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.prog-name{font-size:13px;font-weight:700;width:150px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.prog-wrap{flex:1;background:var(--border);border-radius:20px;height:8px;overflow:hidden}
-.prog-bar{height:100%;border-radius:20px;background:var(--blue)}
-.prog-done .prog-bar{background:var(--green)}
-.prog-ct{font-size:12px;color:var(--muted);font-weight:700;width:32px;text-align:right;flex-shrink:0}
+
+/* ── PROGRESS TABLE ─────────────────────────────── */
+.prog-table{width:100%;border-collapse:collapse;font-size:13px}
+.prog-table th{background:#f0f4f8;color:var(--muted);padding:8px 12px;text-align:left;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border)}
+.prog-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.prog-table tr:last-child td{border-bottom:none}
+.coach-name-cell{font-weight:700;color:var(--ink);font-size:13px}
+.coachee-name-cell{color:var(--muted);font-size:13px;padding-left:20px !important}
+.pair-bar-wrap{width:120px;background:var(--border);border-radius:20px;height:7px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:8px}
+.pair-bar{height:100%;border-radius:20px;background:var(--blue);transition:width .3s}
+.pair-bar.done{background:var(--green)}
+.pair-ct{font-size:12px;font-weight:700;color:var(--muted);display:inline-block;vertical-align:middle;white-space:nowrap}
+.session-dots{display:flex;gap:4px;flex-wrap:wrap}
+.dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--muted);flex-shrink:0}
+.dot.done{background:var(--green);border-color:var(--green);color:white}
+.dot.cancel{background:var(--red);border-color:var(--red);color:white}
+.dot.reschedule{background:var(--gold);border-color:var(--gold);color:white}
+.dot.noshow{background:#a855f7;border-color:#a855f7;color:white}
+.coach-group-row td{background:#f8fafc;padding-top:12px !important;padding-bottom:6px !important}
+
 .empty{text-align:center;padding:28px;color:var(--muted);font-size:14px}
 .loading{text-align:center;padding:24px;color:var(--muted);font-size:14px}
 .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
 .ovf{overflow-x:auto}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:12px;height:12px;border-radius:50%}
 </style>
 </head>
 <body>
@@ -137,7 +155,22 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 <div class="wrap" style="max-width:1000px">
   <div class="dh"><h2>Dashboard</h2><button class="back-btn" style="padding:0;margin:0" onclick="adminLogout()">Sign out</button></div>
   <div class="stats" id="a-stats"></div>
-  <div class="card"><div class="sec">Coach progress</div><div id="a-progress"></div></div>
+
+  <div class="card">
+    <div class="sec">Progress — by coach and coachee</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Completed</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Cancelled</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div> No show</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Rescheduled</div>
+      <div class="legend-item"><div class="legend-dot" style="background:white;border:1.5px solid var(--border)"></div> Not yet logged</div>
+    </div>
+    <div class="ovf"><table class="prog-table" id="progress-table">
+      <thead><tr><th>Coach / Coachee</th><th>Sessions (D · 1 · 2 · 3 · 4)</th><th>Done</th></tr></thead>
+      <tbody id="prog-tbody"></tbody>
+    </table></div>
+  </div>
+
   <div class="card">
     <div class="dh">
       <div class="sec" style="margin:0">All sessions</div>
@@ -163,6 +196,8 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 
 <script>
 const CM={"Ajay Kelkar":["Daniel Raj"],"Beena Menon":["Vasumathi Kothuru","Koushik Yanamandram"],"Deepti Dhingra":["Aruna Jyothi Patapati","Amit Gadhale"],"Jyoti Clara Menezes":["Aasawari Kane","Nivedita Krishna","Vaishnavi V"],"Kanwardeep":["Praveen Kumar Singh","Pratik Joshi","Ravish Vasan","Shuchin Bajaj"],"Laura Seraydarian":["Bhavi Barad"],"Nandan Srinath":["Dr. Ankita Gupta","Seyielezo Putsure"],"Pallavi Singh":["Aniket Gulawani","Priyanka Saha","Yatharth Bahukhandi"],"Parag Chitnis":["Jayeeta Saha","Muskaan","Namrata Karamchandani","Vishishta Sam Magiclink"],"Sanjukta Das":["Monalisa Padhee","Vidya Sridhar","Shravan Kumar Jha"],"Sharda Subramanian":["Anjana Benny","Satyendra Kumar"],"Shersingh Kumar":["Biswabandhu Padhi","Malathy Madathilezham","Sanjay Chauhan"]};
+const SESS_KEYS=["Discovery Session","Coaching Session 1","Coaching Session 2","Coaching Session 3","Coaching Session 4"];
+const SESS_SHORT=["D","1","2","3","4"];
 const SB={"Discovery Session":"bd","Coaching Session 1":"b1","Coaching Session 2":"b2","Coaching Session 3":"b3","Coaching Session 4":"b4"};
 const STB={"Completed":"st-done","Cancelled by coachee":"st-cancel","Cancelled by coach":"st-cancel","No show by coachee":"st-noshow","Rescheduled":"st-reschedule"};
 let allSessions=[],currentCoach=null;
@@ -176,17 +211,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('session-time').value=now.toTimeString().slice(0,5);
 });
 
-function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 function goCoachSel(){go('s-coach-sel');}
 function goAdminLogin(){go('s-admin-login');}
 
 function backToCoachSel(){
-  // FIX: clear history card completely before going back
   currentCoach=null;
   document.getElementById('history-card').style.display='none';
   document.getElementById('history-body').innerHTML='';
@@ -200,13 +229,8 @@ function proceedCoach(){
   if(!n){alert('Please select your name.');return;}
   currentCoach=n;
   document.getElementById('coach-display').textContent=n;
-
-  // FIX: immediately clear history before loading new data
-  const card=document.getElementById('history-card');
-  const body=document.getElementById('history-body');
-  card.style.display='none';
-  body.innerHTML='';
-
+  document.getElementById('history-card').style.display='none';
+  document.getElementById('history-body').innerHTML='';
   const sel=document.getElementById('coachee-sel');
   sel.innerHTML='<option value="">— select your coachee —</option>';
   (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
@@ -218,24 +242,17 @@ function proceedCoach(){
 }
 
 async function loadCoachHistory(coach){
-  const card=document.getElementById('history-card');
-  const body=document.getElementById('history-body');
-  card.style.display='block';
-  body.innerHTML='<div class="loading">Loading…</div>';
+  const card=document.getElementById('history-card'),body=document.getElementById('history-body');
+  card.style.display='block';body.innerHTML='<div class="loading">Loading…</div>';
   try{
-    // FIX: cache:no-store prevents browser serving stale data
     const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach),{cache:'no-store'});
-    const d=await r.json();
-    const ss=d.sessions||[];
-    // FIX: guard — only show if still the same coach
+    const d=await r.json();const ss=d.sessions||[];
     if(currentCoach!==coach){return;}
     if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
     body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Status</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
       ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td><span class="badge ${STB[s.status]||''}">${s.status||'—'}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
       '</tbody></table></div>';
-  }catch{
-    if(currentCoach===coach) body.innerHTML='<div class="empty">Could not load sessions.</div>';
-  }
+  }catch{if(currentCoach===coach)body.innerHTML='<div class="empty">Could not load sessions.</div>';}
 }
 
 async function submitSession(){
@@ -263,7 +280,6 @@ async function submitSession(){
 
 function adminLogin(){
   const pwd=document.getElementById('admin-pwd').value,msg=document.getElementById('login-msg');
-  // FIX: cache:no-store on admin fetch too
   fetch('/api/sessions?password='+encodeURIComponent(pwd),{cache:'no-store'})
     .then(r=>{if(r.status===401){msg.innerHTML='<div class="alert alert-err">Wrong password.</div>';return null;}return r.json();})
     .then(d=>{if(!d)return;allSessions=d.sessions||[];renderDash();go('s-admin-dash');})
@@ -272,18 +288,61 @@ function adminLogin(){
 function adminLogout(){allSessions=[];document.getElementById('admin-pwd').value='';go('s-land');}
 
 function renderDash(){
-  const total=allSessions.length,coaches=[...new Set(allSessions.map(s=>s.coach))].length,rem=150-total;
+  const total=allSessions.length;
+  const coaches=[...new Set(allSessions.map(s=>s.coach))].length;
+  const rem=150-total;
   document.getElementById('a-stats').innerHTML=
     `<div class="stat"><div class="sn" style="color:var(--red)">${total}</div><div class="sl">Logged</div></div>`+
     `<div class="stat"><div class="sn" style="color:var(--blue)">${coaches}</div><div class="sl">Active coaches</div></div>`+
     `<div class="stat"><div class="sn" style="color:var(--green)">${rem}</div><div class="sl">Remaining</div></div>`;
-  const counts={};Object.keys(CM).forEach(c=>counts[c]=0);
-  allSessions.forEach(s=>{if(counts[s.coach]!==undefined)counts[s.coach]++;});
-  document.getElementById('a-progress').innerHTML=Object.keys(CM).sort().map(c=>{
-    const n=counts[c]||0,max=CM[c].length*5,pct=Math.round(n/max*100);
-    return`<div class="prog-row ${pct===100?'prog-done':''}"><div class="prog-name" title="${c}">${c}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="prog-ct">${n}/${max}</div></div>`;
-  }).join('');
-  const fc=document.getElementById('f-coach'),ex=[...new Set(allSessions.map(s=>s.coach))].sort();
+
+  // ── Progress table by coach → coachee → session dots ──────────────
+  const tbody = document.getElementById('prog-tbody');
+  let rows = '';
+
+  Object.keys(CM).sort().forEach(coach => {
+    const coachees = CM[coach];
+    let coachTotal = 0;
+    const coachMax = coachees.length * 5;
+    let coacheeRows = '';
+
+    coachees.forEach(coachee => {
+      const pairSessions = allSessions.filter(s => s.coach === coach && s.coachee === coachee);
+      const done = pairSessions.filter(s => s.status === 'Completed').length;
+      coachTotal += pairSessions.length;
+
+      // Build 5 dots — D, 1, 2, 3, 4
+      const dots = SESS_KEYS.map((sk, i) => {
+        const logged = pairSessions.find(s => s.session === sk);
+        if (!logged) return `<div class="dot" title="${sk} — not logged">${SESS_SHORT[i]}</div>`;
+        if (logged.status === 'Completed') return `<div class="dot done" title="${sk} — Completed">✓</div>`;
+        if (logged.status && logged.status.startsWith('Cancelled')) return `<div class="dot cancel" title="${sk} — ${logged.status}">✕</div>`;
+        if (logged.status === 'No show by coachee') return `<div class="dot noshow" title="${sk} — No show">!</div>`;
+        if (logged.status === 'Rescheduled') return `<div class="dot reschedule" title="${sk} — Rescheduled">↺</div>`;
+        return `<div class="dot done" title="${sk}">✓</div>`;
+      }).join('');
+
+      coacheeRows += `<tr>
+        <td class="coachee-name-cell">${coachee}</td>
+        <td><div class="session-dots">${dots}</div></td>
+        <td><span style="font-size:12px;font-weight:700;color:${done===5?'var(--green)':'var(--muted)'}">${done}/5</span></td>
+      </tr>`;
+    });
+
+    const pct = Math.round(coachTotal / coachMax * 100);
+    rows += `<tr class="coach-group-row">
+      <td colspan="3">
+        <span class="coach-name-cell">${coach}</span>
+        <span style="margin-left:12px;font-size:11px;color:var(--muted);font-weight:600">${coachTotal}/${coachMax} sessions logged</span>
+      </td>
+    </tr>${coacheeRows}`;
+  });
+
+  tbody.innerHTML = rows;
+
+  // Populate coach filter
+  const fc=document.getElementById('f-coach');
+  const ex=[...new Set(allSessions.map(s=>s.coach))].sort();
   fc.innerHTML='<option value="">All coaches</option>'+ex.map(c=>`<option>${c}</option>`).join('');
   renderTable();
 }
