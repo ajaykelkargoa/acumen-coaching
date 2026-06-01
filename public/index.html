@@ -34,6 +34,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .back-btn{background:none;border:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;padding:0 0 16px;display:flex;align-items:center;gap:6px}
 .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
 .bd{background:#dbeafe;color:#1e40af}.b1{background:#dcfce7;color:#15803d}.b2{background:#f3e8ff;color:#7e22ce}.b3{background:#ffedd5;color:#c2410c}.b4{background:#fce7f3;color:#be185d}
+.st-done{background:#dcfce7;color:#15803d}.st-cancel{background:#fef2f2;color:#dc2626}.st-reschedule{background:#ffedd5;color:#c2410c}
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{background:var(--ink);color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
 .tbl td{padding:9px 12px;border-bottom:1px solid var(--border)}
@@ -42,7 +43,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .stat{background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .sn{font-size:28px;font-weight:900;line-height:1;margin-bottom:4px}.sl{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.filter-row select{flex:1;min-width:130px;font-size:13px;padding:8px 10px}
+.filter-row select{flex:1;min-width:120px;font-size:13px;padding:8px 10px}
 .dl-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
 .prog-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
 .prog-name{font-size:13px;font-weight:700;width:150px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -55,20 +56,16 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
 .ovf{overflow-x:auto}
-.coachee-hero{background:linear-gradient(135deg,#1a202c,#2d3748);border-radius:14px;padding:22px;margin-bottom:14px;color:#fff}
-.coachee-hero h3{font-size:18px;font-weight:800;margin-bottom:4px}
-.coachee-hero p{font-size:13px;opacity:.7}
 </style>
 </head>
 <body>
 <div class="bar"><div class="bar-logo">A</div><div><div class="bar-title">Acumen Coaching</div><div class="bar-sub">Session Tracker</div></div></div>
 
-<!-- LANDING -->
+<!-- LANDING — coaches only -->
 <div id="s-land" class="screen active">
 <div class="wrap"><div class="card">
-  <h2>Welcome</h2><p class="sub">Select your role to continue.</p>
+  <h2>Welcome</h2><p class="sub">This tracker is for coaches. Select your name to log a session.</p>
   <button class="role-btn" onclick="goCoachSel()"><span class="rb-icon">👩‍🏫</span><div><div class="rb-title">I am a Coach</div><div class="rb-sub">Log a session or view your history</div></div></button>
-  <button class="role-btn" onclick="goCoacheeSel()"><span class="rb-icon">🙋</span><div><div class="rb-title">I am a Coachee</div><div class="rb-sub">View your coaching sessions</div></div></button>
   <button class="role-btn" onclick="goAdminLogin()"><span class="rb-icon">📊</span><div><div class="rb-title">Hema – Programme Manager</div><div class="rb-sub">Full dashboard and reports</div></div></button>
 </div></div></div>
 
@@ -100,36 +97,21 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
       <div class="field"><label>Session Date *</label><input type="date" id="session-date"></div>
       <div class="field"><label>Session Time *</label><input type="time" id="session-time"></div>
     </div>
-    <button class="btn btn-dark" id="sub-btn" onclick="submitSession()">Submit Session</button>
+    <div class="field"><label>Session Status *</label>
+      <select id="session-status">
+        <option value="">— select status —</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled by coachee">Cancelled by coachee</option>
+        <option value="Cancelled by coach">Cancelled by coach</option>
+        <option value="Rescheduled">Rescheduled</option>
+      </select>
+    </div>
+    <button class="btn btn-dark" id="sub-btn" onclick="submitSession()">Submit</button>
     <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px">Your entries are private — only Hema can see the full report.</p>
   </div>
   <div id="history-card" class="card" style="display:none">
     <div class="sec">Your logged sessions</div>
     <div id="history-body"><div class="loading">Loading…</div></div>
-  </div>
-</div></div>
-
-<!-- COACHEE SELECT -->
-<div id="s-coachee-sel" class="screen">
-<div class="wrap">
-  <button class="back-btn" onclick="go('s-land')">← Back</button>
-  <div class="card"><h2>Select your name</h2><p class="sub">Choose your name to see your coaching sessions.</p>
-    <div class="field"><label>Your Name</label><select id="coachee-name-sel"><option value="">— select your name —</option></select></div>
-    <button class="btn btn-dark" onclick="proceedCoachee()">View my sessions →</button>
-  </div>
-</div></div>
-
-<!-- COACHEE VIEW -->
-<div id="s-coachee-view" class="screen">
-<div class="wrap">
-  <button class="back-btn" onclick="go('s-coachee-sel')">← Back</button>
-  <div class="coachee-hero">
-    <h3 id="coachee-view-name">—</h3>
-    <p>Your coaching sessions</p>
-  </div>
-  <div class="card">
-    <div class="sec">Sessions with your coach</div>
-    <div id="coachee-sessions-body"><div class="loading">Loading…</div></div>
   </div>
 </div></div>
 
@@ -146,7 +128,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 
 <!-- ADMIN DASH -->
 <div id="s-admin-dash" class="screen">
-<div class="wrap" style="max-width:960px">
+<div class="wrap" style="max-width:1000px">
   <div class="dh"><h2>Dashboard</h2><button class="back-btn" style="padding:0;margin:0" onclick="adminLogout()">Sign out</button></div>
   <div class="stats" id="a-stats"></div>
   <div class="card"><div class="sec">Coach progress</div><div id="a-progress"></div></div>
@@ -161,9 +143,13 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
         <option value="">All sessions</option>
         <option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option>
       </select>
+      <select id="f-status" onchange="renderTable()">
+        <option value="">All statuses</option>
+        <option>Completed</option><option>Cancelled by coachee</option><option>Cancelled by coach</option><option>Rescheduled</option>
+      </select>
     </div>
     <div class="ovf">
-      <table class="tbl"><thead><tr><th>Coach</th><th>Coachee</th><th>Session</th><th>Date</th><th>Time</th><th>Logged at</th></tr></thead>
+      <table class="tbl"><thead><tr><th>Coach</th><th>Coachee</th><th>Session</th><th>Status</th><th>Date</th><th>Time</th><th>Logged at</th></tr></thead>
       <tbody id="a-tbody"></tbody></table>
     </div>
   </div>
@@ -171,18 +157,13 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 
 <script>
 const CM={"Ajay Kelkar":["Daniel Raj"],"Beena Menon":["Vasumathi Kothuru","Koushik Yanamandram"],"Deepti Dhingra":["Aruna Jyothi Patapati","Amit Gadhale"],"Jyoti Clara Menezes":["Aasawari Kane","Nivedita Krishna","Vaishnavi V"],"Kanwardeep":["Praveen Kumar Singh","Pratik Joshi","Ravish Vasan","Shuchin Bajaj"],"Laura Seraydarian":["Bhavi Barad"],"Nandan Srinath":["Dr. Ankita Gupta","Seyielezo Putsure"],"Pallavi Singh":["Aniket Gulawani","Priyanka Saha","Yatharth Bahukhandi"],"Parag Chitnis":["Jayeeta Saha","Muskaan","Namrata Karamchandani","Vishishta Sam Magiclink"],"Sanjukta Das":["Monalisa Padhee","Vidya Sridhar","Shravan Kumar Jha"],"Sharda Subramanian":["Anjana Benny","Satyendra Kumar"],"Shersingh Kumar":["Biswabandhu Padhi","Malathy Madathilezham","Sanjay Chauhan"]};
-const ALL_COACHEES=[...new Set(Object.values(CM).flat())].sort();
 const SB={"Discovery Session":"bd","Coaching Session 1":"b1","Coaching Session 2":"b2","Coaching Session 3":"b3","Coaching Session 4":"b4"};
-let allSessions=[],currentCoach=null,currentCoachee=null;
+const STB={"Completed":"st-done","Cancelled by coachee":"st-cancel","Cancelled by coach":"st-cancel","Rescheduled":"st-reschedule"};
+let allSessions=[],currentCoach=null;
 
 window.addEventListener('DOMContentLoaded',()=>{
-  // Coach select
   const cs=document.getElementById('coach-sel');
   Object.keys(CM).sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;cs.appendChild(o);});
-  // Coachee select
-  const ces=document.getElementById('coachee-name-sel');
-  ALL_COACHEES.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;ces.appendChild(o);});
-  // Date/time defaults
   const now=new Date();
   document.getElementById('session-date').value=now.toISOString().split('T')[0];
   document.getElementById('session-date').max=now.toISOString().split('T')[0];
@@ -191,7 +172,6 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 function goCoachSel(){go('s-coach-sel');}
-function goCoacheeSel(){go('s-coachee-sel');}
 function goAdminLogin(){go('s-admin-login');}
 
 function proceedCoach(){
@@ -199,7 +179,9 @@ function proceedCoach(){
   currentCoach=n;document.getElementById('coach-display').textContent=n;
   const sel=document.getElementById('coachee-sel');sel.innerHTML='<option value="">— select your coachee —</option>';
   (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
-  document.getElementById('session-sel').value='';document.getElementById('form-msg').innerHTML='';
+  document.getElementById('session-sel').value='';
+  document.getElementById('session-status').value='';
+  document.getElementById('form-msg').innerHTML='';
   loadCoachHistory(n);go('s-coach-form');
 }
 
@@ -210,8 +192,8 @@ async function loadCoachHistory(coach){
     const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach));
     const d=await r.json();const ss=d.sessions||[];
     if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
-    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
-      ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
+    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Status</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
+      ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td><span class="badge ${STB[s.status]||''}">${s.status||'—'}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
       '</tbody></table></div>';
   }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
 }
@@ -221,38 +203,22 @@ async function submitSession(){
   const session=document.getElementById('session-sel').value;
   const date=document.getElementById('session-date').value;
   const time=document.getElementById('session-time').value;
+  const status=document.getElementById('session-status').value;
   const msg=document.getElementById('form-msg'),btn=document.getElementById('sub-btn');
-  if(!coachee||!session||!date||!time){msg.innerHTML='<div class="alert alert-err">Please fill in all fields including time.</div>';return;}
+  if(!coachee||!session||!date||!time||!status){msg.innerHTML='<div class="alert alert-err">Please fill in all fields.</div>';return;}
   btn.disabled=true;btn.textContent='Submitting…';msg.innerHTML='';
   try{
-    const r=await fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coach:currentCoach,coachee,session,date,time})});
+    const r=await fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coach:currentCoach,coachee,session,date,time,status})});
     const d=await r.json();
     if(r.ok){
-      msg.innerHTML=`<div class="alert alert-ok">✅ Logged — <b>${session}</b> with <b>${coachee}</b> on ${fd(date)} at ${time}</div>`;
-      document.getElementById('coachee-sel').value='';document.getElementById('session-sel').value='';
+      msg.innerHTML=`<div class="alert alert-ok">✅ Logged — <b>${session}</b> with <b>${coachee}</b> · ${status} · ${fd(date)} ${time}</div>`;
+      document.getElementById('coachee-sel').value='';
+      document.getElementById('session-sel').value='';
+      document.getElementById('session-status').value='';
       loadCoachHistory(currentCoach);
     }else{msg.innerHTML=`<div class="alert alert-err">⚠️ ${d.error||'Something went wrong.'}</div>`;}
   }catch{msg.innerHTML='<div class="alert alert-err">⚠️ Network error. Try again.</div>';}
-  btn.disabled=false;btn.textContent='Submit Session';window.scrollTo(0,0);
-}
-
-function proceedCoachee(){
-  const n=document.getElementById('coachee-name-sel').value;if(!n){alert('Please select your name.');return;}
-  currentCoachee=n;document.getElementById('coachee-view-name').textContent=n;
-  loadCoacheeHistory(n);go('s-coachee-view');
-}
-
-async function loadCoacheeHistory(coachee){
-  const body=document.getElementById('coachee-sessions-body');
-  body.innerHTML='<div class="loading">Loading…</div>';
-  try{
-    const r=await fetch('/api/sessions?coachee='+encodeURIComponent(coachee));
-    const d=await r.json();const ss=d.sessions||[];
-    if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.<br>Your coach will log sessions after each meeting.</div>';return;}
-    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coach</th><th>Session</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
-      ss.map(s=>`<tr><td>${s.coach}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
-      '</tbody></table></div>';
-  }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
+  btn.disabled=false;btn.textContent='Submit';window.scrollTo(0,0);
 }
 
 function adminLogin(){
@@ -270,7 +236,8 @@ function renderDash(){
     `<div class="stat"><div class="sn" style="color:var(--red)">${total}</div><div class="sl">Logged</div></div>`+
     `<div class="stat"><div class="sn" style="color:var(--blue)">${coaches}</div><div class="sl">Active coaches</div></div>`+
     `<div class="stat"><div class="sn" style="color:var(--green)">${rem}</div><div class="sl">Remaining</div></div>`;
-  const counts={};Object.keys(CM).forEach(c=>counts[c]=0);allSessions.forEach(s=>{if(counts[s.coach]!==undefined)counts[s.coach]++;});
+  const counts={};Object.keys(CM).forEach(c=>counts[c]=0);
+  allSessions.forEach(s=>{if(counts[s.coach]!==undefined)counts[s.coach]++;});
   document.getElementById('a-progress').innerHTML=Object.keys(CM).sort().map(c=>{
     const n=counts[c]||0,max=CM[c].length*5,pct=Math.round(n/max*100);
     return`<div class="prog-row ${pct===100?'prog-done':''}"><div class="prog-name" title="${c}">${c}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="prog-ct">${n}/${max}</div></div>`;
@@ -281,18 +248,22 @@ function renderDash(){
 }
 
 function renderTable(){
-  const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
-  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs)).sort((a,b)=>b.id-a.id);
+  const fc=document.getElementById('f-coach').value;
+  const fs=document.getElementById('f-sess').value;
+  const fst=document.getElementById('f-status').value;
+  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs)&&(!fst||s.status===fst)).sort((a,b)=>b.id-a.id);
   const tb=document.getElementById('a-tbody');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">No sessions found</td></tr>';return;}
-  tb.innerHTML=rows.map(s=>`<tr><td>${s.coach}</td><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td><td>${ft(s.loggedAt)}</td></tr>`).join('');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted)">No sessions found</td></tr>';return;}
+  tb.innerHTML=rows.map(s=>`<tr><td>${s.coach}</td><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td><span class="badge ${STB[s.status]||''}">${s.status||'—'}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td><td>${ft(s.loggedAt)}</td></tr>`).join('');
 }
 
 function dlCSV(){
-  const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
-  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs));
-  const csv=[['Coach','Coachee','Session','Session Date','Session Time','Logged At'],
-    ...rows.map(s=>[s.coach,s.coachee,s.session,s.date,s.time||'',ft(s.loggedAt)])
+  const fc=document.getElementById('f-coach').value;
+  const fs=document.getElementById('f-sess').value;
+  const fst=document.getElementById('f-status').value;
+  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs)&&(!fst||s.status===fst));
+  const csv=[['Coach','Coachee','Session','Status','Session Date','Session Time','Logged At'],
+    ...rows.map(s=>[s.coach,s.coachee,s.session,s.status||'',s.date,s.time||'',ft(s.loggedAt)])
   ].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='acumen_sessions_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
