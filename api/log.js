@@ -5,8 +5,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { coach, coachee, session, date, time } = req.body || {};
-  if (!coach || !coachee || !session || !date)
+  const { coach, coachee, session, date, time, status } = req.body || {};
+  if (!coach || !coachee || !session || !date || !time || !status)
     return res.status(400).json({ error: 'All fields required.' });
 
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     sessions.push({
       id: Date.now(), coach, coachee, session,
-      date, time: time || '',
+      date, time, status,
       loggedAt: new Date().toISOString()
     });
 
