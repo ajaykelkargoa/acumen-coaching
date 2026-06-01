@@ -1,12 +1,1 @@
-[
-  {
-    "id": 88888888,
-    "coach": "TEST",
-    "coachee": "TEST",
-    "session": "Discovery Session",
-    "date": "2026-06-01",
-    "time": "10:00",
-    "status": "Completed",
-    "loggedAt": "2026-06-01T10:00:00Z"
-  }
-]
+[]
