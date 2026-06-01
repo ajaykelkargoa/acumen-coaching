@@ -18,6 +18,7 @@ h2{font-size:20px;font-weight:800;margin-bottom:5px}
 .sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
+.field .hint{font-size:11px;color:var(--muted);margin-top:5px;font-style:italic}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 select,input[type=date],input[type=time],input[type=password]{width:100%;padding:12px 14px;font-size:15px;border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit;-webkit-appearance:none;appearance:none}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
@@ -30,11 +31,12 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .alert{border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;line-height:1.5;font-weight:600}
 .alert-ok{background:#f0fdf4;border:1.5px solid #86efac;color:#15803d}
 .alert-err{background:#fef2f2;border:1.5px solid #fca5a5;color:#dc2626}
+.alert-info{background:#eff6ff;border:1.5px solid #93c5fd;color:#1d4ed8}
 .prefilled{background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:12px 14px;font-size:15px;font-weight:700;color:#15803d;display:flex;justify-content:space-between;align-items:center}
 .back-btn{background:none;border:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;padding:0 0 16px;display:flex;align-items:center;gap:6px}
 .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
 .bd{background:#dbeafe;color:#1e40af}.b1{background:#dcfce7;color:#15803d}.b2{background:#f3e8ff;color:#7e22ce}.b3{background:#ffedd5;color:#c2410c}.b4{background:#fce7f3;color:#be185d}
-.st-done{background:#dcfce7;color:#15803d}.st-cancel{background:#fef2f2;color:#dc2626}.st-reschedule{background:#ffedd5;color:#c2410c}
+.st-done{background:#dcfce7;color:#15803d}.st-cancel{background:#fef2f2;color:#dc2626}.st-reschedule{background:#ffedd5;color:#c2410c}.st-noshow{background:#f3e8ff;color:#7e22ce}
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{background:var(--ink);color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
 .tbl td{padding:9px 12px;border-bottom:1px solid var(--border)}
@@ -61,7 +63,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 <body>
 <div class="bar"><div class="bar-logo">A</div><div><div class="bar-title">Acumen Coaching</div><div class="bar-sub">Session Tracker</div></div></div>
 
-<!-- LANDING — coaches only -->
+<!-- LANDING -->
 <div id="s-land" class="screen active">
 <div class="wrap"><div class="card">
   <h2>Welcome</h2><p class="sub">This tracker is for coaches. Select your name to log a session.</p>
@@ -82,10 +84,11 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 <!-- COACH FORM -->
 <div id="s-coach-form" class="screen">
 <div class="wrap">
-  <button class="back-btn" onclick="go('s-coach-sel')">← Back</button>
+  <button class="back-btn" onclick="backToCoachSel()">← Back</button>
   <div id="form-msg"></div>
+  <div class="alert alert-info">📌 Fill this in <strong>after</strong> your session has taken place.</div>
   <div class="card">
-    <h2>Log a session</h2><p class="sub">Fill this in right after your session ends.</p>
+    <h2>Log a session</h2><p class="sub">Takes 30 seconds. Please do this right after every session.</p>
     <div class="field"><label>Your Name</label><div class="prefilled"><span id="coach-display">—</span><span>🔒</span></div></div>
     <div class="field"><label>Coachee Name *</label><select id="coachee-sel"><option value="">— select your coachee —</option></select></div>
     <div class="field"><label>Session *</label>
@@ -94,24 +97,27 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
       </select>
     </div>
     <div class="row2">
-      <div class="field"><label>Session Date *</label><input type="date" id="session-date"></div>
-      <div class="field"><label>Session Time *</label><input type="time" id="session-time"></div>
+      <div class="field"><label>Date session took place *</label><input type="date" id="session-date"></div>
+      <div class="field"><label>Time session started *</label><input type="time" id="session-time"></div>
     </div>
-    <div class="field"><label>Session Status *</label>
+    <div class="field">
+      <label>What happened in this session? *</label>
       <select id="session-status">
         <option value="">— select status —</option>
-        <option value="Completed">Completed</option>
+        <option value="Completed">Completed — session held successfully</option>
         <option value="Cancelled by coachee">Cancelled by coachee</option>
         <option value="Cancelled by coach">Cancelled by coach</option>
-        <option value="Rescheduled">Rescheduled</option>
+        <option value="No show by coachee">No show by coachee</option>
+        <option value="Rescheduled">Rescheduled — will happen later</option>
       </select>
+      <div class="hint">Please log even if the session was cancelled — it helps Hema track the programme.</div>
     </div>
     <button class="btn btn-dark" id="sub-btn" onclick="submitSession()">Submit</button>
     <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px">Your entries are private — only Hema can see the full report.</p>
   </div>
   <div id="history-card" class="card" style="display:none">
     <div class="sec">Your logged sessions</div>
-    <div id="history-body"><div class="loading">Loading…</div></div>
+    <div id="history-body"></div>
   </div>
 </div></div>
 
@@ -145,7 +151,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
       </select>
       <select id="f-status" onchange="renderTable()">
         <option value="">All statuses</option>
-        <option>Completed</option><option>Cancelled by coachee</option><option>Cancelled by coach</option><option>Rescheduled</option>
+        <option>Completed</option><option>Cancelled by coachee</option><option>Cancelled by coach</option><option>No show by coachee</option><option>Rescheduled</option>
       </select>
     </div>
     <div class="ovf">
@@ -158,7 +164,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 <script>
 const CM={"Ajay Kelkar":["Daniel Raj"],"Beena Menon":["Vasumathi Kothuru","Koushik Yanamandram"],"Deepti Dhingra":["Aruna Jyothi Patapati","Amit Gadhale"],"Jyoti Clara Menezes":["Aasawari Kane","Nivedita Krishna","Vaishnavi V"],"Kanwardeep":["Praveen Kumar Singh","Pratik Joshi","Ravish Vasan","Shuchin Bajaj"],"Laura Seraydarian":["Bhavi Barad"],"Nandan Srinath":["Dr. Ankita Gupta","Seyielezo Putsure"],"Pallavi Singh":["Aniket Gulawani","Priyanka Saha","Yatharth Bahukhandi"],"Parag Chitnis":["Jayeeta Saha","Muskaan","Namrata Karamchandani","Vishishta Sam Magiclink"],"Sanjukta Das":["Monalisa Padhee","Vidya Sridhar","Shravan Kumar Jha"],"Sharda Subramanian":["Anjana Benny","Satyendra Kumar"],"Shersingh Kumar":["Biswabandhu Padhi","Malathy Madathilezham","Sanjay Chauhan"]};
 const SB={"Discovery Session":"bd","Coaching Session 1":"b1","Coaching Session 2":"b2","Coaching Session 3":"b3","Coaching Session 4":"b4"};
-const STB={"Completed":"st-done","Cancelled by coachee":"st-cancel","Cancelled by coach":"st-cancel","Rescheduled":"st-reschedule"};
+const STB={"Completed":"st-done","Cancelled by coachee":"st-cancel","Cancelled by coach":"st-cancel","No show by coachee":"st-noshow","Rescheduled":"st-reschedule"};
 let allSessions=[],currentCoach=null;
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -170,32 +176,66 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('session-time').value=now.toTimeString().slice(0,5);
 });
 
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
 function goCoachSel(){go('s-coach-sel');}
 function goAdminLogin(){go('s-admin-login');}
 
+function backToCoachSel(){
+  // FIX: clear history card completely before going back
+  currentCoach=null;
+  document.getElementById('history-card').style.display='none';
+  document.getElementById('history-body').innerHTML='';
+  document.getElementById('form-msg').innerHTML='';
+  document.getElementById('coach-sel').value='';
+  go('s-coach-sel');
+}
+
 function proceedCoach(){
-  const n=document.getElementById('coach-sel').value;if(!n){alert('Please select your name.');return;}
-  currentCoach=n;document.getElementById('coach-display').textContent=n;
-  const sel=document.getElementById('coachee-sel');sel.innerHTML='<option value="">— select your coachee —</option>';
+  const n=document.getElementById('coach-sel').value;
+  if(!n){alert('Please select your name.');return;}
+  currentCoach=n;
+  document.getElementById('coach-display').textContent=n;
+
+  // FIX: immediately clear history before loading new data
+  const card=document.getElementById('history-card');
+  const body=document.getElementById('history-body');
+  card.style.display='none';
+  body.innerHTML='';
+
+  const sel=document.getElementById('coachee-sel');
+  sel.innerHTML='<option value="">— select your coachee —</option>';
   (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
   document.getElementById('session-sel').value='';
   document.getElementById('session-status').value='';
   document.getElementById('form-msg').innerHTML='';
-  loadCoachHistory(n);go('s-coach-form');
+  go('s-coach-form');
+  loadCoachHistory(n);
 }
 
 async function loadCoachHistory(coach){
-  const card=document.getElementById('history-card'),body=document.getElementById('history-body');
-  card.style.display='block';body.innerHTML='<div class="loading">Loading…</div>';
+  const card=document.getElementById('history-card');
+  const body=document.getElementById('history-body');
+  card.style.display='block';
+  body.innerHTML='<div class="loading">Loading…</div>';
   try{
-    const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach));
-    const d=await r.json();const ss=d.sessions||[];
+    // FIX: cache:no-store prevents browser serving stale data
+    const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach),{cache:'no-store'});
+    const d=await r.json();
+    const ss=d.sessions||[];
+    // FIX: guard — only show if still the same coach
+    if(currentCoach!==coach){return;}
     if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
     body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Status</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
       ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td><span class="badge ${STB[s.status]||''}">${s.status||'—'}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
       '</tbody></table></div>';
-  }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
+  }catch{
+    if(currentCoach===coach) body.innerHTML='<div class="empty">Could not load sessions.</div>';
+  }
 }
 
 async function submitSession(){
@@ -223,7 +263,8 @@ async function submitSession(){
 
 function adminLogin(){
   const pwd=document.getElementById('admin-pwd').value,msg=document.getElementById('login-msg');
-  fetch('/api/sessions?password='+encodeURIComponent(pwd))
+  // FIX: cache:no-store on admin fetch too
+  fetch('/api/sessions?password='+encodeURIComponent(pwd),{cache:'no-store'})
     .then(r=>{if(r.status===401){msg.innerHTML='<div class="alert alert-err">Wrong password.</div>';return null;}return r.json();})
     .then(d=>{if(!d)return;allSessions=d.sessions||[];renderDash();go('s-admin-dash');})
     .catch(()=>{msg.innerHTML='<div class="alert alert-err">Error. Try again.</div>';});
