@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Acumen Coaching Tracker</title>
+<style>
+:root{--ink:#1a202c;--teal:#2a9d8f;--gold:#f6ad55;--red:#e53e3e;--green:#38a169;--blue:#3182ce;--bg:#f7fafc;--card:#fff;--border:#e2e8f0;--muted:#718096}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.bar{background:var(--ink);padding:14px 18px;display:flex;align-items:center;gap:12px}
+.bar-logo{width:34px;height:34px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--ink)}
+.bar-title{color:#fff;font-size:15px;font-weight:700}.bar-sub{color:rgba(255,255,255,.55);font-size:12px}
+.screen{display:none}.screen.active{display:block}
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px 70px}
+.card{background:var(--card);border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+h2{font-size:20px;font-weight:800;margin-bottom:5px}
+.sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
+select,input[type=date],input[type=password]{width:100%;padding:12px 14px;font-size:15px;border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit;-webkit-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+select:focus,input:focus{outline:none;border-color:var(--teal)}
+.btn{width:100%;padding:14px;font-size:16px;font-weight:800;border:none;border-radius:10px;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{opacity:.85}.btn-dark:disabled{opacity:.5;cursor:not-allowed}
+.role-btn{width:100%;padding:16px 18px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;text-align:left;margin-bottom:10px;font-family:inherit;display:flex;align-items:center;gap:14px;transition:all .2s}
+.role-btn:hover{border-color:var(--teal);background:#f0fdfb}
+.rb-icon{font-size:28px;flex-shrink:0}.rb-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:2px}.rb-sub{font-size:12px;color:var(--muted)}
+.alert{border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;line-height:1.5;font-weight:600}
+.alert-ok{background:#f0fdf4;border:1.5px solid #86efac;color:#15803d}
+.alert-err{background:#fef2f2;border:1.5px solid #fca5a5;color:#dc2626}
+.prefilled{background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:12px 14px;font-size:15px;font-weight:700;color:#15803d;display:flex;justify-content:space-between;align-items:center}
+.back-btn{background:none;border:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;padding:0 0 16px;display:flex;align-items:center;gap:6px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.bd{background:#dbeafe;color:#1e40af}.b1{background:#dcfce7;color:#15803d}.b2{background:#f3e8ff;color:#7e22ce}.b3{background:#ffedd5;color:#c2410c}.b4{background:#fce7f3;color:#be185d}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--ink);color:#fff;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--border)}
+.tbl tr:nth-child(even) td{background:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.sn{font-size:28px;font-weight:900;line-height:1;margin-bottom:4px}.sl{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.filter-row select{flex:1;min-width:130px;font-size:13px;padding:8px 10px}
+.dl-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.prog-name{font-size:13px;font-weight:700;width:150px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prog-wrap{flex:1;background:var(--border);border-radius:20px;height:8px;overflow:hidden}
+.prog-bar{height:100%;border-radius:20px;background:var(--blue)}
+.prog-done .prog-bar{background:var(--green)}
+.prog-ct{font-size:12px;color:var(--muted);font-weight:700;width:32px;text-align:right;flex-shrink:0}
+.empty{text-align:center;padding:28px;color:var(--muted);font-size:14px}
+.loading{text-align:center;padding:24px;color:var(--muted);font-size:14px}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.ovf{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-logo">A</div><div><div class="bar-title">Acumen Coaching</div><div class="bar-sub">Session Tracker</div></div></div>
+
+<div id="s-land" class="screen active">
+<div class="wrap"><div class="card">
+  <h2>Welcome</h2><p class="sub">Select your role to continue.</p>
+  <button class="role-btn" onclick="goCoachSel()"><span class="rb-icon">👩‍🏫</span><div><div class="rb-title">I am a Coach</div><div class="rb-sub">Log a session or view your history</div></div></button>
+  <button class="role-btn" onclick="goAdminLogin()"><span class="rb-icon">📊</span><div><div class="rb-title">Hema – Programme Manager</div><div class="rb-sub">Full dashboard and reports</div></div></button>
+</div></div></div>
+
+<div id="s-coach-sel" class="screen">
+<div class="wrap">
+  <button class="back-btn" onclick="go('s-land')">← Back</button>
+  <div class="card"><h2>Select your name</h2><p class="sub">Choose your name from the list.</p>
+    <div class="field"><label>Your Name</label><select id="coach-sel"><option value="">— select your name —</option></select></div>
+    <button class="btn btn-dark" onclick="proceedCoach()">Continue →</button>
+  </div>
+</div></div>
+
+<div id="s-coach-form" class="screen">
+<div class="wrap">
+  <button class="back-btn" onclick="go('s-coach-sel')">← Back</button>
+  <div id="form-msg"></div>
+  <div class="card">
+    <h2>Log a session</h2><p class="sub">Fill this in right after your session ends.</p>
+    <div class="field"><label>Your Name</label><div class="prefilled"><span id="coach-display">—</span><span>🔒</span></div></div>
+    <div class="field"><label>Coachee Name *</label><select id="coachee-sel"><option value="">— select your coachee —</option></select></div>
+    <div class="field"><label>Session *</label>
+      <select id="session-sel"><option value="">— select session —</option>
+        <option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option>
+      </select>
+    </div>
+    <div class="field"><label>Session Date *</label><input type="date" id="session-date"></div>
+    <button class="btn btn-dark" id="sub-btn" onclick="submitSession()">Submit Session</button>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px">Your entries are private — only Hema can see the full report.</p>
+  </div>
+  <div id="history-card" class="card" style="display:none">
+    <div class="sec">Your logged sessions</div>
+    <div id="history-body"><div class="loading">Loading…</div></div>
+  </div>
+</div></div>
+
+<div id="s-admin-login" class="screen">
+<div class="wrap">
+  <button class="back-btn" onclick="go('s-land')">← Back</button>
+  <div class="card"><h2>Admin Login</h2><p class="sub">For Hema only.</p>
+    <div id="login-msg"></div>
+    <div class="field"><label>Password</label><input type="password" id="admin-pwd" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+    <button class="btn btn-dark" onclick="adminLogin()">Sign In →</button>
+  </div>
+</div></div>
+
+<div id="s-admin-dash" class="screen">
+<div class="wrap" style="max-width:900px">
+  <div class="dh"><h2>Dashboard</h2><button class="back-btn" style="padding:0;margin:0" onclick="adminLogout()">Sign out</button></div>
+  <div class="stats" id="a-stats"></div>
+  <div class="card"><div class="sec">Coach progress</div><div id="a-progress"></div></div>
+  <div class="card">
+    <div class="dh"><div class="sec" style="margin:0">All sessions</div><button class="dl-btn" onclick="dlCSV()">⬇ Download CSV</button></div>
+    <div class="filter-row">
+      <select id="f-coach" onchange="renderTable()"><option value="">All coaches</option></select>
+      <select id="f-sess" onchange="renderTable()"><option value="">All sessions</option><option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option></select>
+    </div>
+    <div class="ovf"><table class="tbl"><thead><tr><th>Coach</th><th>Coachee</th><th>Session</th><th>Date</th><th>Logged at</th></tr></thead><tbody id="a-tbody"></tbody></table></div>
+  </div>
+</div></div>
+
+<script>
+const CM={"Ajay Kelkar":["Daniel Raj"],"Beena Menon":["Vasumathi Kothuru","Koushik Yanamandram"],"Deepti Dhingra":["Aruna Jyothi Patapati","Amit Gadhale"],"Jyoti Clara Menezes":["Aasawari Kane","Nivedita Krishna","Vaishnavi V"],"Kanwardeep":["Praveen Kumar Singh","Pratik Joshi","Ravish Vasan","Shuchin Bajaj"],"Laura Seraydarian":["Bhavi Barad"],"Nandan Srinath":["Dr. Ankita Gupta","Seyielezo Putsure"],"Pallavi Singh":["Aniket Gulawani","Priyanka Saha","Yatharth Bahukhandi"],"Parag Chitnis":["Jayeeta Saha","Muskaan","Namrata Karamchandani","Vishishta Sam Magiclink"],"Sanjukta Das":["Monalisa Padhee","Vidya Sridhar","Shravan Kumar Jha"],"Sharda Subramanian":["Anjana Benny","Satyendra Kumar"],"Shersingh Kumar":["Biswabandhu Padhi","Malathy Madathilezham","Sanjay Chauhan"]};
+const SB={"Discovery Session":"bd","Coaching Session 1":"b1","Coaching Session 2":"b2","Coaching Session 3":"b3","Coaching Session 4":"b4"};
+let allSessions=[],currentCoach=null;
+window.addEventListener('DOMContentLoaded',()=>{
+  const sel=document.getElementById('coach-sel');
+  Object.keys(CM).sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+  const t=new Date().toISOString().split('T')[0];
+  document.getElementById('session-date').value=t;document.getElementById('session-date').max=t;
+});
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function goCoachSel(){go('s-coach-sel');}
+function goAdminLogin(){go('s-admin-login');}
+function proceedCoach(){
+  const n=document.getElementById('coach-sel').value;if(!n){alert('Please select your name.');return;}
+  currentCoach=n;document.getElementById('coach-display').textContent=n;
+  const cs=document.getElementById('coachee-sel');cs.innerHTML='<option value="">— select your coachee —</option>';
+  (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;cs.appendChild(o);});
+  document.getElementById('session-sel').value='';document.getElementById('form-msg').innerHTML='';
+  loadHistory(n);go('s-coach-form');
+}
+async function loadHistory(coach){
+  const card=document.getElementById('history-card'),body=document.getElementById('history-body');
+  card.style.display='block';body.innerHTML='<div class="loading">Loading…</div>';
+  try{
+    const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach));const d=await r.json();const ss=d.sessions||[];
+    if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
+    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Date</th></tr></thead><tbody>'+
+      ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td></tr>`).join('')+'</tbody></table></div>';
+  }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
+}
+async function submitSession(){
+  const coachee=document.getElementById('coachee-sel').value,session=document.getElementById('session-sel').value,date=document.getElementById('session-date').value;
+  const msg=document.getElementById('form-msg'),btn=document.getElementById('sub-btn');
+  if(!coachee||!session||!date){msg.innerHTML='<div class="alert alert-err">Please fill in all fields.</div>';return;}
+  btn.disabled=true;btn.textContent='Submitting…';msg.innerHTML='';
+  try{
+    const r=await fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coach:currentCoach,coachee,session,date})});
+    const d=await r.json();
+    if(r.ok){msg.innerHTML=`<div class="alert alert-ok">Logged — <b>${session}</b> with <b>${coachee}</b> on ${fd(date)}</div>`;document.getElementById('coachee-sel').value='';document.getElementById('session-sel').value='';loadHistory(currentCoach);}
+    else{msg.innerHTML=`<div class="alert alert-err">⚠️ ${d.error||'Something went wrong.'}</div>`;}
+  }catch{msg.innerHTML='<div class="alert alert-err">⚠️ Network error. Try again.</div>';}
+  btn.disabled=false;btn.textContent='Submit Session';window.scrollTo(0,0);
+}
+function adminLogin(){
+  const pwd=document.getElementById('admin-pwd').value,msg=document.getElementById('login-msg');
+  fetch('/api/sessions?password='+encodeURIComponent(pwd))
+    .then(r=>{if(r.status===401){msg.innerHTML='<div class="alert alert-err">Wrong password.</div>';return null;}return r.json();})
+    .then(d=>{if(!d)return;allSessions=d.sessions||[];renderDash();go('s-admin-dash');})
+    .catch(()=>{msg.innerHTML='<div class="alert alert-err">Error. Try again.</div>';});
+}
+function adminLogout(){allSessions=[];document.getElementById('admin-pwd').value='';go('s-land');}
+function renderDash(){
+  const total=allSessions.length,coaches=[...new Set(allSessions.map(s=>s.coach))].length,rem=150-total;
+  document.getElementById('a-stats').innerHTML=`<div class="stat"><div class="sn" style="color:var(--red)">${total}</div><div class="sl">Logged</div></div><div class="stat"><div class="sn" style="color:var(--blue)">${coaches}</div><div class="sl">Active coaches</div></div><div class="stat"><div class="sn" style="color:var(--green)">${rem}</div><div class="sl">Remaining</div></div>`;
+  const counts={};Object.keys(CM).forEach(c=>counts[c]=0);allSessions.forEach(s=>{if(counts[s.coach]!==undefined)counts[s.coach]++;});
+  document.getElementById('a-progress').innerHTML=Object.keys(CM).sort().map(c=>{const n=counts[c]||0,max=CM[c].length*5,pct=Math.round(n/max*100);return`<div class="prog-row ${pct===100?'prog-done':''}"><div class="prog-name" title="${c}">${c}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="prog-ct">${n}/${max}</div></div>`;}).join('');
+  const fc=document.getElementById('f-coach'),ex=[...new Set(allSessions.map(s=>s.coach))].sort();
+  fc.innerHTML='<option value="">All coaches</option>'+ex.map(c=>`<option>${c}</option>`).join('');
+  renderTable();
+}
+function renderTable(){
+  const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
+  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs)).sort((a,b)=>b.id-a.id);
+  const tb=document.getElementById('a-tbody');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted)">No sessions found</td></tr>';return;}
+  tb.innerHTML=rows.map(s=>`<tr><td>${s.coach}</td><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${ft(s.loggedAt)}</td></tr>`).join('');
+}
+function dlCSV(){
+  const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
+  const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs));
+  const csv=[['Coach','Coachee','Session','Session Date','Logged At'],...rows.map(s=>[s.coach,s.coachee,s.session,s.date,ft(s.loggedAt)])].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='acumen_sessions_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+}
+function fd(d){if(!d)return'—';const[y,m,dd]=d.split('-');return`${dd} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]} ${y}`;}
+function ft(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+</script>
+</body>
+</html>
