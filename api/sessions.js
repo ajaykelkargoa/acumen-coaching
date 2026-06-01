@@ -9,14 +9,16 @@ export default async function handler(req, res) {
   const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/sessions.json`;
   const HEADERS = { Authorization: `token ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.v3+json' };
 
-  const { password, coach } = req.query;
+  const { password, coach, coachee } = req.query;
   try {
     const fr = await fetch(API_URL, { headers: HEADERS });
     if (!fr.ok) return res.status(500).json({ error: 'Could not read data.' });
     const fd = await fr.json();
     const sessions = JSON.parse(Buffer.from(fd.content, 'base64').toString('utf-8'));
+
     if (password === ADMIN_PASSWORD) return res.status(200).json({ sessions });
     if (coach) return res.status(200).json({ sessions: sessions.filter(s => s.coach === coach) });
+    if (coachee) return res.status(200).json({ sessions: sessions.filter(s => s.coachee === coachee) });
     return res.status(401).json({ error: 'Unauthorized' });
   } catch (e) {
     return res.status(500).json({ error: 'Server error.' });
