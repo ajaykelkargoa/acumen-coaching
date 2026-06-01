@@ -18,7 +18,8 @@ h2{font-size:20px;font-weight:800;margin-bottom:5px}
 .sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
-select,input[type=date],input[type=password]{width:100%;padding:12px 14px;font-size:15px;border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit;-webkit-appearance:none;appearance:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+select,input[type=date],input[type=time],input[type=password]{width:100%;padding:12px 14px;font-size:15px;border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit;-webkit-appearance:none;appearance:none}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 select:focus,input:focus{outline:none;border-color:var(--teal)}
 .btn{width:100%;padding:14px;font-size:16px;font-weight:800;border:none;border-radius:10px;cursor:pointer;font-family:inherit;transition:opacity .2s}
@@ -54,18 +55,24 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
 .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
 .ovf{overflow-x:auto}
+.coachee-hero{background:linear-gradient(135deg,#1a202c,#2d3748);border-radius:14px;padding:22px;margin-bottom:14px;color:#fff}
+.coachee-hero h3{font-size:18px;font-weight:800;margin-bottom:4px}
+.coachee-hero p{font-size:13px;opacity:.7}
 </style>
 </head>
 <body>
 <div class="bar"><div class="bar-logo">A</div><div><div class="bar-title">Acumen Coaching</div><div class="bar-sub">Session Tracker</div></div></div>
 
+<!-- LANDING -->
 <div id="s-land" class="screen active">
 <div class="wrap"><div class="card">
   <h2>Welcome</h2><p class="sub">Select your role to continue.</p>
   <button class="role-btn" onclick="goCoachSel()"><span class="rb-icon">👩‍🏫</span><div><div class="rb-title">I am a Coach</div><div class="rb-sub">Log a session or view your history</div></div></button>
+  <button class="role-btn" onclick="goCoacheeSel()"><span class="rb-icon">🙋</span><div><div class="rb-title">I am a Coachee</div><div class="rb-sub">View your coaching sessions</div></div></button>
   <button class="role-btn" onclick="goAdminLogin()"><span class="rb-icon">📊</span><div><div class="rb-title">Hema – Programme Manager</div><div class="rb-sub">Full dashboard and reports</div></div></button>
 </div></div></div>
 
+<!-- COACH SELECT -->
 <div id="s-coach-sel" class="screen">
 <div class="wrap">
   <button class="back-btn" onclick="go('s-land')">← Back</button>
@@ -75,6 +82,7 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
   </div>
 </div></div>
 
+<!-- COACH FORM -->
 <div id="s-coach-form" class="screen">
 <div class="wrap">
   <button class="back-btn" onclick="go('s-coach-sel')">← Back</button>
@@ -88,7 +96,10 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
         <option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option>
       </select>
     </div>
-    <div class="field"><label>Session Date *</label><input type="date" id="session-date"></div>
+    <div class="row2">
+      <div class="field"><label>Session Date *</label><input type="date" id="session-date"></div>
+      <div class="field"><label>Session Time *</label><input type="time" id="session-time"></div>
+    </div>
     <button class="btn btn-dark" id="sub-btn" onclick="submitSession()">Submit Session</button>
     <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px">Your entries are private — only Hema can see the full report.</p>
   </div>
@@ -98,6 +109,31 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
   </div>
 </div></div>
 
+<!-- COACHEE SELECT -->
+<div id="s-coachee-sel" class="screen">
+<div class="wrap">
+  <button class="back-btn" onclick="go('s-land')">← Back</button>
+  <div class="card"><h2>Select your name</h2><p class="sub">Choose your name to see your coaching sessions.</p>
+    <div class="field"><label>Your Name</label><select id="coachee-name-sel"><option value="">— select your name —</option></select></div>
+    <button class="btn btn-dark" onclick="proceedCoachee()">View my sessions →</button>
+  </div>
+</div></div>
+
+<!-- COACHEE VIEW -->
+<div id="s-coachee-view" class="screen">
+<div class="wrap">
+  <button class="back-btn" onclick="go('s-coachee-sel')">← Back</button>
+  <div class="coachee-hero">
+    <h3 id="coachee-view-name">—</h3>
+    <p>Your coaching sessions</p>
+  </div>
+  <div class="card">
+    <div class="sec">Sessions with your coach</div>
+    <div id="coachee-sessions-body"><div class="loading">Loading…</div></div>
+  </div>
+</div></div>
+
+<!-- ADMIN LOGIN -->
 <div id="s-admin-login" class="screen">
 <div class="wrap">
   <button class="back-btn" onclick="go('s-land')">← Back</button>
@@ -108,65 +144,117 @@ select:focus,input:focus{outline:none;border-color:var(--teal)}
   </div>
 </div></div>
 
+<!-- ADMIN DASH -->
 <div id="s-admin-dash" class="screen">
-<div class="wrap" style="max-width:900px">
+<div class="wrap" style="max-width:960px">
   <div class="dh"><h2>Dashboard</h2><button class="back-btn" style="padding:0;margin:0" onclick="adminLogout()">Sign out</button></div>
   <div class="stats" id="a-stats"></div>
   <div class="card"><div class="sec">Coach progress</div><div id="a-progress"></div></div>
   <div class="card">
-    <div class="dh"><div class="sec" style="margin:0">All sessions</div><button class="dl-btn" onclick="dlCSV()">⬇ Download CSV</button></div>
+    <div class="dh">
+      <div class="sec" style="margin:0">All sessions</div>
+      <button class="dl-btn" onclick="dlCSV()">⬇ Download CSV</button>
+    </div>
     <div class="filter-row">
       <select id="f-coach" onchange="renderTable()"><option value="">All coaches</option></select>
-      <select id="f-sess" onchange="renderTable()"><option value="">All sessions</option><option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option></select>
+      <select id="f-sess" onchange="renderTable()">
+        <option value="">All sessions</option>
+        <option>Discovery Session</option><option>Coaching Session 1</option><option>Coaching Session 2</option><option>Coaching Session 3</option><option>Coaching Session 4</option>
+      </select>
     </div>
-    <div class="ovf"><table class="tbl"><thead><tr><th>Coach</th><th>Coachee</th><th>Session</th><th>Date</th><th>Logged at</th></tr></thead><tbody id="a-tbody"></tbody></table></div>
+    <div class="ovf">
+      <table class="tbl"><thead><tr><th>Coach</th><th>Coachee</th><th>Session</th><th>Date</th><th>Time</th><th>Logged at</th></tr></thead>
+      <tbody id="a-tbody"></tbody></table>
+    </div>
   </div>
 </div></div>
 
 <script>
 const CM={"Ajay Kelkar":["Daniel Raj"],"Beena Menon":["Vasumathi Kothuru","Koushik Yanamandram"],"Deepti Dhingra":["Aruna Jyothi Patapati","Amit Gadhale"],"Jyoti Clara Menezes":["Aasawari Kane","Nivedita Krishna","Vaishnavi V"],"Kanwardeep":["Praveen Kumar Singh","Pratik Joshi","Ravish Vasan","Shuchin Bajaj"],"Laura Seraydarian":["Bhavi Barad"],"Nandan Srinath":["Dr. Ankita Gupta","Seyielezo Putsure"],"Pallavi Singh":["Aniket Gulawani","Priyanka Saha","Yatharth Bahukhandi"],"Parag Chitnis":["Jayeeta Saha","Muskaan","Namrata Karamchandani","Vishishta Sam Magiclink"],"Sanjukta Das":["Monalisa Padhee","Vidya Sridhar","Shravan Kumar Jha"],"Sharda Subramanian":["Anjana Benny","Satyendra Kumar"],"Shersingh Kumar":["Biswabandhu Padhi","Malathy Madathilezham","Sanjay Chauhan"]};
+const ALL_COACHEES=[...new Set(Object.values(CM).flat())].sort();
 const SB={"Discovery Session":"bd","Coaching Session 1":"b1","Coaching Session 2":"b2","Coaching Session 3":"b3","Coaching Session 4":"b4"};
-let allSessions=[],currentCoach=null;
+let allSessions=[],currentCoach=null,currentCoachee=null;
+
 window.addEventListener('DOMContentLoaded',()=>{
-  const sel=document.getElementById('coach-sel');
-  Object.keys(CM).sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
-  const t=new Date().toISOString().split('T')[0];
-  document.getElementById('session-date').value=t;document.getElementById('session-date').max=t;
+  // Coach select
+  const cs=document.getElementById('coach-sel');
+  Object.keys(CM).sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;cs.appendChild(o);});
+  // Coachee select
+  const ces=document.getElementById('coachee-name-sel');
+  ALL_COACHEES.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;ces.appendChild(o);});
+  // Date/time defaults
+  const now=new Date();
+  document.getElementById('session-date').value=now.toISOString().split('T')[0];
+  document.getElementById('session-date').max=now.toISOString().split('T')[0];
+  document.getElementById('session-time').value=now.toTimeString().slice(0,5);
 });
+
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 function goCoachSel(){go('s-coach-sel');}
+function goCoacheeSel(){go('s-coachee-sel');}
 function goAdminLogin(){go('s-admin-login');}
+
 function proceedCoach(){
   const n=document.getElementById('coach-sel').value;if(!n){alert('Please select your name.');return;}
   currentCoach=n;document.getElementById('coach-display').textContent=n;
-  const cs=document.getElementById('coachee-sel');cs.innerHTML='<option value="">— select your coachee —</option>';
-  (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;cs.appendChild(o);});
+  const sel=document.getElementById('coachee-sel');sel.innerHTML='<option value="">— select your coachee —</option>';
+  (CM[n]||[]).forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
   document.getElementById('session-sel').value='';document.getElementById('form-msg').innerHTML='';
-  loadHistory(n);go('s-coach-form');
+  loadCoachHistory(n);go('s-coach-form');
 }
-async function loadHistory(coach){
+
+async function loadCoachHistory(coach){
   const card=document.getElementById('history-card'),body=document.getElementById('history-body');
   card.style.display='block';body.innerHTML='<div class="loading">Loading…</div>';
   try{
-    const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach));const d=await r.json();const ss=d.sessions||[];
+    const r=await fetch('/api/sessions?coach='+encodeURIComponent(coach));
+    const d=await r.json();const ss=d.sessions||[];
     if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
-    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Date</th></tr></thead><tbody>'+
-      ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td></tr>`).join('')+'</tbody></table></div>';
+    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coachee</th><th>Session</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
+      ss.map(s=>`<tr><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
+      '</tbody></table></div>';
   }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
 }
+
 async function submitSession(){
-  const coachee=document.getElementById('coachee-sel').value,session=document.getElementById('session-sel').value,date=document.getElementById('session-date').value;
+  const coachee=document.getElementById('coachee-sel').value;
+  const session=document.getElementById('session-sel').value;
+  const date=document.getElementById('session-date').value;
+  const time=document.getElementById('session-time').value;
   const msg=document.getElementById('form-msg'),btn=document.getElementById('sub-btn');
-  if(!coachee||!session||!date){msg.innerHTML='<div class="alert alert-err">Please fill in all fields.</div>';return;}
+  if(!coachee||!session||!date||!time){msg.innerHTML='<div class="alert alert-err">Please fill in all fields including time.</div>';return;}
   btn.disabled=true;btn.textContent='Submitting…';msg.innerHTML='';
   try{
-    const r=await fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coach:currentCoach,coachee,session,date})});
+    const r=await fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({coach:currentCoach,coachee,session,date,time})});
     const d=await r.json();
-    if(r.ok){msg.innerHTML=`<div class="alert alert-ok">Logged — <b>${session}</b> with <b>${coachee}</b> on ${fd(date)}</div>`;document.getElementById('coachee-sel').value='';document.getElementById('session-sel').value='';loadHistory(currentCoach);}
-    else{msg.innerHTML=`<div class="alert alert-err">⚠️ ${d.error||'Something went wrong.'}</div>`;}
+    if(r.ok){
+      msg.innerHTML=`<div class="alert alert-ok">✅ Logged — <b>${session}</b> with <b>${coachee}</b> on ${fd(date)} at ${time}</div>`;
+      document.getElementById('coachee-sel').value='';document.getElementById('session-sel').value='';
+      loadCoachHistory(currentCoach);
+    }else{msg.innerHTML=`<div class="alert alert-err">⚠️ ${d.error||'Something went wrong.'}</div>`;}
   }catch{msg.innerHTML='<div class="alert alert-err">⚠️ Network error. Try again.</div>';}
   btn.disabled=false;btn.textContent='Submit Session';window.scrollTo(0,0);
 }
+
+function proceedCoachee(){
+  const n=document.getElementById('coachee-name-sel').value;if(!n){alert('Please select your name.');return;}
+  currentCoachee=n;document.getElementById('coachee-view-name').textContent=n;
+  loadCoacheeHistory(n);go('s-coachee-view');
+}
+
+async function loadCoacheeHistory(coachee){
+  const body=document.getElementById('coachee-sessions-body');
+  body.innerHTML='<div class="loading">Loading…</div>';
+  try{
+    const r=await fetch('/api/sessions?coachee='+encodeURIComponent(coachee));
+    const d=await r.json();const ss=d.sessions||[];
+    if(!ss.length){body.innerHTML='<div class="empty">No sessions logged yet.<br>Your coach will log sessions after each meeting.</div>';return;}
+    body.innerHTML='<div class="ovf"><table class="tbl"><thead><tr><th>Coach</th><th>Session</th><th>Date</th><th>Time</th></tr></thead><tbody>'+
+      ss.map(s=>`<tr><td>${s.coach}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td></tr>`).join('')+
+      '</tbody></table></div>';
+  }catch{body.innerHTML='<div class="empty">Could not load sessions.</div>';}
+}
+
 function adminLogin(){
   const pwd=document.getElementById('admin-pwd').value,msg=document.getElementById('login-msg');
   fetch('/api/sessions?password='+encodeURIComponent(pwd))
@@ -175,28 +263,41 @@ function adminLogin(){
     .catch(()=>{msg.innerHTML='<div class="alert alert-err">Error. Try again.</div>';});
 }
 function adminLogout(){allSessions=[];document.getElementById('admin-pwd').value='';go('s-land');}
+
 function renderDash(){
   const total=allSessions.length,coaches=[...new Set(allSessions.map(s=>s.coach))].length,rem=150-total;
-  document.getElementById('a-stats').innerHTML=`<div class="stat"><div class="sn" style="color:var(--red)">${total}</div><div class="sl">Logged</div></div><div class="stat"><div class="sn" style="color:var(--blue)">${coaches}</div><div class="sl">Active coaches</div></div><div class="stat"><div class="sn" style="color:var(--green)">${rem}</div><div class="sl">Remaining</div></div>`;
+  document.getElementById('a-stats').innerHTML=
+    `<div class="stat"><div class="sn" style="color:var(--red)">${total}</div><div class="sl">Logged</div></div>`+
+    `<div class="stat"><div class="sn" style="color:var(--blue)">${coaches}</div><div class="sl">Active coaches</div></div>`+
+    `<div class="stat"><div class="sn" style="color:var(--green)">${rem}</div><div class="sl">Remaining</div></div>`;
   const counts={};Object.keys(CM).forEach(c=>counts[c]=0);allSessions.forEach(s=>{if(counts[s.coach]!==undefined)counts[s.coach]++;});
-  document.getElementById('a-progress').innerHTML=Object.keys(CM).sort().map(c=>{const n=counts[c]||0,max=CM[c].length*5,pct=Math.round(n/max*100);return`<div class="prog-row ${pct===100?'prog-done':''}"><div class="prog-name" title="${c}">${c}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="prog-ct">${n}/${max}</div></div>`;}).join('');
+  document.getElementById('a-progress').innerHTML=Object.keys(CM).sort().map(c=>{
+    const n=counts[c]||0,max=CM[c].length*5,pct=Math.round(n/max*100);
+    return`<div class="prog-row ${pct===100?'prog-done':''}"><div class="prog-name" title="${c}">${c}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="prog-ct">${n}/${max}</div></div>`;
+  }).join('');
   const fc=document.getElementById('f-coach'),ex=[...new Set(allSessions.map(s=>s.coach))].sort();
   fc.innerHTML='<option value="">All coaches</option>'+ex.map(c=>`<option>${c}</option>`).join('');
   renderTable();
 }
+
 function renderTable(){
   const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
   const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs)).sort((a,b)=>b.id-a.id);
   const tb=document.getElementById('a-tbody');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted)">No sessions found</td></tr>';return;}
-  tb.innerHTML=rows.map(s=>`<tr><td>${s.coach}</td><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${ft(s.loggedAt)}</td></tr>`).join('');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">No sessions found</td></tr>';return;}
+  tb.innerHTML=rows.map(s=>`<tr><td>${s.coach}</td><td>${s.coachee}</td><td><span class="badge ${SB[s.session]||''}">${s.session}</span></td><td>${fd(s.date)}</td><td>${s.time||'—'}</td><td>${ft(s.loggedAt)}</td></tr>`).join('');
 }
+
 function dlCSV(){
   const fc=document.getElementById('f-coach').value,fs=document.getElementById('f-sess').value;
   const rows=allSessions.filter(s=>(!fc||s.coach===fc)&&(!fs||s.session===fs));
-  const csv=[['Coach','Coachee','Session','Session Date','Logged At'],...rows.map(s=>[s.coach,s.coachee,s.session,s.date,ft(s.loggedAt)])].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='acumen_sessions_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+  const csv=[['Coach','Coachee','Session','Session Date','Session Time','Logged At'],
+    ...rows.map(s=>[s.coach,s.coachee,s.session,s.date,s.time||'',ft(s.loggedAt)])
+  ].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='acumen_sessions_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
 }
+
 function fd(d){if(!d)return'—';const[y,m,dd]=d.split('-');return`${dd} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]} ${y}`;}
 function ft(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 </script>
