@@ -8,5 +8,15 @@
     "time": "10:30",
     "status": "Completed",
     "loggedAt": "2026-06-02T09:43:59.346Z"
+  },
+  {
+    "id": 1780393467739,
+    "coach": "Nandan Srinath",
+    "coachee": "Seyielezo Putsure",
+    "session": "Discovery Session",
+    "date": "2026-06-01",
+    "time": "14:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-02T09:44:27.739Z"
   }
 ]
