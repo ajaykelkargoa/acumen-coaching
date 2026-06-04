@@ -88,5 +88,15 @@
     "time": "12:00",
     "status": "Completed",
     "loggedAt": "2026-06-04T17:08:05.329Z"
+  },
+  {
+    "id": 1780592923272,
+    "coach": "Shersingh Kumar",
+    "coachee": "Malathy Madathilezham",
+    "session": "Discovery Session",
+    "date": "2026-06-02",
+    "time": "14:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-04T17:08:43.272Z"
   }
 ]
