@@ -38,5 +38,15 @@
     "time": "10:30",
     "status": "Completed",
     "loggedAt": "2026-06-04T13:29:29.429Z"
+  },
+  {
+    "id": 1780579799914,
+    "coach": "Sanjukta Das",
+    "coachee": "Shravan Kumar Jha",
+    "session": "Discovery Session",
+    "date": "2026-06-02",
+    "time": "08:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-04T13:29:59.914Z"
   }
 ]
