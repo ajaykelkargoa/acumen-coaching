@@ -18,5 +18,15 @@
     "time": "14:00",
     "status": "Completed",
     "loggedAt": "2026-06-02T09:44:27.739Z"
+  },
+  {
+    "id": 1780579477778,
+    "coach": "Beena Menon",
+    "coachee": "Koushik Yanamandram",
+    "session": "Discovery Session",
+    "date": "2026-05-23",
+    "time": "17:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-04T13:24:37.778Z"
   }
 ]
