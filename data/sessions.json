@@ -168,5 +168,15 @@
     "time": "17:00",
     "status": "Completed",
     "loggedAt": "2026-06-05T15:16:58.029Z"
+  },
+  {
+    "id": 1780683906123,
+    "coach": "Laura Seraydarian",
+    "coachee": "Bhavi Barad",
+    "session": "Discovery Session",
+    "date": "2026-06-02",
+    "time": "09:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-05T18:25:06.123Z"
   }
 ]
