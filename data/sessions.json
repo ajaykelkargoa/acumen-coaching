@@ -118,5 +118,15 @@
     "time": "11:00",
     "status": "Completed",
     "loggedAt": "2026-06-05T05:19:26.320Z"
+  },
+  {
+    "id": 1780636817936,
+    "coach": "Parag Chitnis",
+    "coachee": "Vishishta Sam Magiclink",
+    "session": "Discovery Session",
+    "date": "2026-06-03",
+    "time": "10:30",
+    "status": "Completed",
+    "loggedAt": "2026-06-05T05:20:17.936Z"
   }
 ]
