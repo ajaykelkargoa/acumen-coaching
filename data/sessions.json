@@ -198,5 +198,15 @@
     "time": "15:30",
     "status": "Completed",
     "loggedAt": "2026-06-08T06:41:35.879Z"
+  },
+  {
+    "id": 1780900926906,
+    "coach": "Pallavi Singh",
+    "coachee": "Yatharth Bahukhandi",
+    "session": "Discovery Session",
+    "date": "2026-06-07",
+    "time": "17:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-08T06:42:06.906Z"
   }
 ]
