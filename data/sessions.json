@@ -238,5 +238,15 @@
     "time": "17:30",
     "status": "Completed",
     "loggedAt": "2026-06-08T16:59:22.661Z"
+  },
+  {
+    "id": 1780979089108,
+    "coach": "Ajay Kelkar",
+    "coachee": "Daniel Raj",
+    "session": "Discovery Session",
+    "date": "2026-06-05",
+    "time": "11:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-09T04:24:49.108Z"
   }
 ]
