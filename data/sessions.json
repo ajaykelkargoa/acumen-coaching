@@ -288,5 +288,15 @@
     "time": "11:00",
     "status": "Completed",
     "loggedAt": "2026-06-12T08:32:27.245Z"
+  },
+  {
+    "id": 1781587745996,
+    "coach": "Sanjukta Das",
+    "coachee": "Shravan Kumar Jha",
+    "session": "Coaching Session 1",
+    "date": "2026-06-16",
+    "time": "10:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-16T05:29:05.996Z"
   }
 ]
