@@ -318,5 +318,15 @@
     "time": "09:00",
     "status": "Completed",
     "loggedAt": "2026-06-16T16:20:38.584Z"
+  },
+  {
+    "id": 1781865880339,
+    "coach": "Pallavi Singh",
+    "coachee": "Yatharth Bahukhandi",
+    "session": "Coaching Session 1",
+    "date": "2026-06-19",
+    "time": "15:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-19T10:44:40.339Z"
   }
 ]
