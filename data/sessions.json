@@ -348,5 +348,15 @@
     "time": "16:00",
     "status": "Completed",
     "loggedAt": "2026-06-21T05:25:22.655Z"
+  },
+  {
+    "id": 1782019591353,
+    "coach": "Sharda Subramanian",
+    "coachee": "Anjana Benny",
+    "session": "Coaching Session 1",
+    "date": "2026-06-10",
+    "time": "16:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-21T05:26:31.353Z"
   }
 ]
