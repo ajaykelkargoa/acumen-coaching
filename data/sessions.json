@@ -338,5 +338,15 @@
     "time": "19:30",
     "status": "Completed",
     "loggedAt": "2026-06-19T14:45:13.816Z"
+  },
+  {
+    "id": 1782019522655,
+    "coach": "Sharda Subramanian",
+    "coachee": "Satyendra Kumar",
+    "session": "Coaching Session 1",
+    "date": "2026-06-19",
+    "time": "16:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-21T05:25:22.655Z"
   }
 ]
