@@ -358,5 +358,15 @@
     "time": "16:00",
     "status": "Completed",
     "loggedAt": "2026-06-21T05:26:31.353Z"
+  },
+  {
+    "id": 1782108232979,
+    "coach": "Parag Chitnis",
+    "coachee": "Namrata Karamchandani",
+    "session": "Coaching Session 3",
+    "date": "2026-06-22",
+    "time": "10:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-22T06:03:52.979Z"
   }
 ]
