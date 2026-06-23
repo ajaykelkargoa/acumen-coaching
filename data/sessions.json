@@ -378,5 +378,15 @@
     "time": "10:30",
     "status": "Completed",
     "loggedAt": "2026-06-23T06:06:08.042Z"
+  },
+  {
+    "id": 1782200076045,
+    "coach": "Pallavi Singh",
+    "coachee": "Priyanka Saha",
+    "session": "Coaching Session 1",
+    "date": "2026-06-23",
+    "time": "12:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-23T07:34:36.045Z"
   }
 ]
