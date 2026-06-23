@@ -368,5 +368,15 @@
     "time": "10:00",
     "status": "Completed",
     "loggedAt": "2026-06-22T06:03:52.979Z"
+  },
+  {
+    "id": 1782194768042,
+    "coach": "Sanjukta Das",
+    "coachee": "Monalisa Padhee",
+    "session": "Coaching Session 1",
+    "date": "2026-06-23",
+    "time": "10:30",
+    "status": "Completed",
+    "loggedAt": "2026-06-23T06:06:08.042Z"
   }
 ]
