@@ -388,5 +388,15 @@
     "time": "12:00",
     "status": "Completed",
     "loggedAt": "2026-06-23T07:34:36.045Z"
+  },
+  {
+    "id": 1782391943883,
+    "coach": "Beena Menon",
+    "coachee": "Vasumathi Kothuru",
+    "session": "Coaching Session 1",
+    "date": "2026-06-25",
+    "time": "18:00",
+    "status": "Rescheduled",
+    "loggedAt": "2026-06-25T12:52:23.883Z"
   }
 ]
