@@ -448,5 +448,15 @@
     "time": "14:00",
     "status": "Completed",
     "loggedAt": "2026-06-29T09:28:01.160Z"
+  },
+  {
+    "id": 1782725444574,
+    "coach": "Nandan Srinath",
+    "coachee": "Dr. Ankita Gupta",
+    "session": "Coaching Session 1",
+    "date": "2026-06-12",
+    "time": "16:00",
+    "status": "Completed",
+    "loggedAt": "2026-06-29T09:30:44.574Z"
   }
 ]
