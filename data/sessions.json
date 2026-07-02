@@ -478,5 +478,15 @@
     "time": "12:00",
     "status": "Completed",
     "loggedAt": "2026-07-01T04:16:50.039Z"
+  },
+  {
+    "id": 1782997494655,
+    "coach": "Pallavi Singh",
+    "coachee": "Aniket Gulawani",
+    "session": "Coaching Session 1",
+    "date": "2026-07-02",
+    "time": "11:15",
+    "status": "Completed",
+    "loggedAt": "2026-07-02T13:04:54.655Z"
   }
 ]
