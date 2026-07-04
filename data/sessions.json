@@ -498,5 +498,15 @@
     "time": "11:00",
     "status": "Completed",
     "loggedAt": "2026-07-04T05:09:50.499Z"
+  },
+  {
+    "id": 1783195887951,
+    "coach": "Kanwardeep",
+    "coachee": "Pratik Joshi",
+    "session": "Discovery Session",
+    "date": "2026-07-04",
+    "time": "12:00",
+    "status": "Completed",
+    "loggedAt": "2026-07-04T20:11:27.951Z"
   }
 ]
