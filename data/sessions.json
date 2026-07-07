@@ -518,5 +518,15 @@
     "time": "19:30",
     "status": "Completed",
     "loggedAt": "2026-07-06T15:29:32.693Z"
+  },
+  {
+    "id": 1783434242577,
+    "coach": "Kanwardeep",
+    "coachee": "Shuchin Bajaj",
+    "session": "Coaching Session 1",
+    "date": "2026-07-07",
+    "time": "16:00",
+    "status": "Completed",
+    "loggedAt": "2026-07-07T14:24:02.577Z"
   }
 ]
