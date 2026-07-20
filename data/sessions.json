@@ -568,5 +568,15 @@
     "time": "15:00",
     "status": "Completed",
     "loggedAt": "2026-07-20T10:44:54.007Z"
+  },
+  {
+    "id": 1784560549547,
+    "coach": "Kanwardeep",
+    "coachee": "Ravish Vasan",
+    "session": "Coaching Session 2",
+    "date": "2026-07-20",
+    "time": "18:00",
+    "status": "Completed",
+    "loggedAt": "2026-07-20T15:15:49.547Z"
   }
 ]
