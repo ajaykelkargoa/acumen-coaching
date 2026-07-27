@@ -578,5 +578,15 @@
     "time": "18:00",
     "status": "Completed",
     "loggedAt": "2026-07-20T15:15:49.547Z"
+  },
+  {
+    "id": 1785140322499,
+    "coach": "Deepti Dhingra",
+    "coachee": "Amit Gadhale",
+    "session": "Coaching Session 3",
+    "date": "2026-07-16",
+    "time": "17:00",
+    "status": "Completed",
+    "loggedAt": "2026-07-27T08:18:42.499Z"
   }
 ]
