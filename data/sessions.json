@@ -638,5 +638,15 @@
     "time": "09:00",
     "status": "Completed",
     "loggedAt": "2026-08-05T03:12:34.125Z"
+  },
+  {
+    "id": 1785953656936,
+    "coach": "Kanwardeep",
+    "coachee": "Pratik Joshi",
+    "session": "Coaching Session 1",
+    "date": "2026-08-05",
+    "time": "17:00",
+    "status": "Completed",
+    "loggedAt": "2026-08-05T18:14:16.936Z"
   }
 ]
