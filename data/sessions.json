@@ -698,5 +698,15 @@
     "time": "11:00",
     "status": "Completed",
     "loggedAt": "2026-08-15T04:30:52.905Z"
+  },
+  {
+    "id": 1786768295105,
+    "coach": "Jyoti Clara Menezes",
+    "coachee": "Vaishnavi V",
+    "session": "Coaching Session 2",
+    "date": "2026-07-24",
+    "time": "11:00",
+    "status": "Completed",
+    "loggedAt": "2026-08-15T04:31:35.105Z"
   }
 ]
