@@ -688,5 +688,15 @@
     "time": "17:00",
     "status": "Completed",
     "loggedAt": "2026-08-14T12:35:17.399Z"
+  },
+  {
+    "id": 1786768252905,
+    "coach": "Jyoti Clara Menezes",
+    "coachee": "Aasawari Kane",
+    "session": "Coaching Session 2",
+    "date": "2026-08-13",
+    "time": "11:00",
+    "status": "Completed",
+    "loggedAt": "2026-08-15T04:30:52.905Z"
   }
 ]
