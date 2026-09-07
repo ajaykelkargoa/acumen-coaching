@@ -778,5 +778,15 @@
     "time": "10:00",
     "status": "Completed",
     "loggedAt": "2026-09-07T06:57:31.969Z"
+  },
+  {
+    "id": 1788764508648,
+    "coach": "Shersingh Kumar",
+    "coachee": "Sanjay Chauhan",
+    "session": "Coaching Session 2",
+    "date": "2026-08-10",
+    "time": "11:30",
+    "status": "Completed",
+    "loggedAt": "2026-09-07T07:01:48.648Z"
   }
 ]
