@@ -758,5 +758,15 @@
     "time": "15:00",
     "status": "Completed",
     "loggedAt": "2026-09-05T09:21:49.751Z"
+  },
+  {
+    "id": 1788764197125,
+    "coach": "Shersingh Kumar",
+    "coachee": "Biswabandhu Padhi",
+    "session": "Coaching Session 4",
+    "date": "2026-09-07",
+    "time": "11:00",
+    "status": "Completed",
+    "loggedAt": "2026-09-07T06:56:37.125Z"
   }
 ]
