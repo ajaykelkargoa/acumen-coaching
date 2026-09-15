@@ -848,5 +848,15 @@
     "time": "09:00",
     "status": "Completed",
     "loggedAt": "2026-09-11T04:12:06.467Z"
+  },
+  {
+    "id": 1789475203984,
+    "coach": "Deepti Dhingra",
+    "coachee": "Aruna Jyothi Patapati",
+    "session": "Coaching Session 3",
+    "date": "2026-09-15",
+    "time": "17:00",
+    "status": "Completed",
+    "loggedAt": "2026-09-15T12:26:43.984Z"
   }
 ]
